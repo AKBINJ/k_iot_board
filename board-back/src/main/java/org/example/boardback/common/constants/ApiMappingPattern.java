@@ -76,7 +76,6 @@ public class ApiMappingPattern {
         // ===============================================================
         // 3. Boards
         // ===============================================================
-
         public static final class Boards {
             private Boards() {}
 
