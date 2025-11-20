@@ -115,6 +115,7 @@ CREATE TABLE refresh_tokens (
 
 # === Board / Category (게시판 / 게시판 카테고리) === #
 
+
 CREATE TABLE board_categories (
 	id BIGINT AUTO_INCREMENT PRIMARY KEY,
     name VARCHAR(50) NOT NULL COMMENT '카테고리명',

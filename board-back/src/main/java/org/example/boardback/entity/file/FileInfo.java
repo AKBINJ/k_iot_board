@@ -1,4 +1,3 @@
-
 package org.example.boardback.entity.file;
 
 import jakarta.persistence.*;

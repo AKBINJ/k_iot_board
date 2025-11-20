@@ -1,20 +1,33 @@
-import type { ApiResponse } from "@/types/common/ApiResponse";
+// user.api.ts
+
 import { privateApi } from "../common/axiosInstance";
-import type { UserDetailResponse, UserListItemResponse } from "@/types/user/user.dto";
-import { USRE_PATH } from "./user.path";
+import type {
+  UserDetailResponse,
+  UserListResponse,
+} from "@/types/user/user.dto";
+import { USER_PATH } from "./user.path";
+import type { ResponseDto } from "@/types/common/ResponseDto";
 
 export const userApi = {
   getUser: async (userId: number): Promise<UserDetailResponse> => {
-    const res = await privateApi.get<ApiResponse<UserDetailResponse>>(
-      USRE_PATH.BY_ID(userId)
+    const res = await privateApi.get<ResponseDto<UserDetailResponse>>(
+      USER_PATH.BY_ID(userId)
     );
-    return res.data.data;
+    if (res.data.data) {
+      return res.data.data;
+    } else {
+      throw new Error("사용자 데이터가 존재하지 않습니다.")
+    }
   },
 
-  getUserList: async (): Promise<UserListItemResponse> => {
-    const res = await privateApi.get<ApiResponse<UserListItemResponse>>(
-      USRE_PATH.LIST
+  getUserList: async (): Promise<UserListResponse> => {
+    const res = await privateApi.get<ResponseDto<UserListResponse>>(
+      USER_PATH.LIST
     );
-    return res.data.data;
+    if (res.data.data) {
+      return res.data.data
+    } else {
+      throw new Error("사용자 데이터가 존재하지 않습니다.")
+    }
   },
 };

@@ -1,4 +1,3 @@
-
 package org.example.boardback.controller;
 
 import lombok.RequiredArgsConstructor;
@@ -40,38 +39,49 @@ public class BoardFileController {
         List<BoardFileListDto> files = boardFileService.getFilesByBoard(boardId);
 
         if (files == null || files.isEmpty()) {
-            return ResponseEntity.noContent().build();
+            return ResponseEntity.noContent().build(); // 204 No Content
         }
 
-        return ResponseEntity.ok(files);
+        System.out.println("files" + files);
+        return ResponseEntity.ok(files); // 200 OK
     }
 
-    @GetMapping("/file/download/{fileId}")
+    @GetMapping(value="/files/{fileId}/download", produces = MediaType.ALL_VALUE)
     public ResponseEntity<Resource> download(@PathVariable Long fileId) {
+        // service 에서 파일 정보 조회
         FileInfo info = boardFileService.getFileInfo(fileId);
 
+        // 파일 경로 획득 + 존재 여부 검증
         Path path = boardFileService.loadFile(fileId);
 
+        // Resource 변환
         Resource resource = new PathResource(path);
 
+        // 다운로드에 필요한 헤더 생성 (파일명 인코딩, MIME 타입 등)
         HttpHeaders headers = boardFileService.createDownloadHeaders(info, path);
 
+        // 응답 반환
         return ResponseEntity.ok()
                 .headers(headers)
                 .body(resource);
     }
 
-    @DeleteMapping("/file/{fileId}")
-    public ResponseEntity<Void> deleteFile(@PathVariable Long fileId) {
+    @DeleteMapping("/files/{fileId}")
+    public ResponseEntity<Void> deleteBoardFile(@PathVariable Long fileId) {
         boardFileService.deleteBoardFile(fileId);
         return ResponseEntity.noContent().build();
     }
 
-    @PutMapping(value = BoardApi.ID_ONLY + "/files", consumes = MediaType.MULTIPART_FORM_DATA_VALUE)
+    @PutMapping(
+            value = BoardApi.ID_ONLY + "/files",
+            consumes = MediaType.MULTIPART_FORM_DATA_VALUE
+    )
     public ResponseEntity<?> updateBoardFiles(
             @PathVariable Long boardId,
-            // ModelAttribute: Java 객체로 바인딩 할 때
-            // >> FormData 기반 요청에는 @RequestBody 사용 불가
+            // ModelAttribute
+            // : 쿼리 파라미터나 HTML 폼 데이터를 Java 객체로 바인딩할 때 사용
+            // MultipartFile + List<Long> 조합 시 JSON + 파일 혼합이 불가능
+            //      >> FormData 기반 요청에는 @RequestBody 사용 불가
             //      >> @ModelAttribute가 가장 안정적인 방식
             @ModelAttribute BoardFileUpdateRequestDto dto) {
         boardFileService.updateBoardFiles(boardId, dto);

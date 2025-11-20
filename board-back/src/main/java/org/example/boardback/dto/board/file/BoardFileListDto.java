@@ -1,11 +1,15 @@
 package org.example.boardback.dto.board.file;
 
+import lombok.AllArgsConstructor;
 import lombok.Builder;
 import lombok.Getter;
+import lombok.NoArgsConstructor;
 import org.example.boardback.entity.file.FileInfo;
 
 @Getter
 @Builder
+@NoArgsConstructor
+@AllArgsConstructor
 public class BoardFileListDto {
     private Long fileId;
     private String originalName;
@@ -27,4 +31,3 @@ public class BoardFileListDto {
                 .build();
     }
 }
-
