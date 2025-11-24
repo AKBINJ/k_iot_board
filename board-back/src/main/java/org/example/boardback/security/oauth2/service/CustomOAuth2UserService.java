@@ -1,6 +1,5 @@
 package org.example.boardback.security.oauth2.service;
 
-import com.nimbusds.openid.connect.sdk.claims.UserInfo;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.example.boardback.common.enums.AuthProvider;
