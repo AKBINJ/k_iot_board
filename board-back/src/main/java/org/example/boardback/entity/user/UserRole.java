@@ -15,7 +15,7 @@ import lombok.NoArgsConstructor;
         },
         indexes = {
                 @Index(name = "idx_user_roles_user_id", columnList = "user_id"),
-                @Index(name = "idx_user_roles_user_name", columnList = "role_name")
+                @Index(name = "idx_user_roles_role_name", columnList = "role_name"),
         }
 )
 @Getter

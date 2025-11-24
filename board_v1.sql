@@ -1,4 +1,4 @@
-# DROP DATABASE IF EXISTS `board_v1`; 
+DROP DATABASE IF EXISTS `board_v1`; 
 CREATE DATABASE IF NOT EXISTS `board_v1`
 	CHARACTER SET utf8mb4
     COLLATE utf8mb4_general_ci;
@@ -114,7 +114,8 @@ CREATE TABLE refresh_tokens (
     COMMENT = '리프레시 토큰 저장 테이블';
 
 # === Board / Category (게시판 / 게시판 카테고리) === #
-
+DROP TABLE IF EXISTS boards;
+DROP TABLE IF EXISTS board_categories;
 
 CREATE TABLE board_categories (
 	id BIGINT AUTO_INCREMENT PRIMARY KEY,

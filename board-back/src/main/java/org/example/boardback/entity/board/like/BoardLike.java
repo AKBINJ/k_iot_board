@@ -1,4 +1,3 @@
-
 package org.example.boardback.entity.board.like;
 
 import jakarta.persistence.*;

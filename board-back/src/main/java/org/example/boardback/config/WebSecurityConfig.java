@@ -1,4 +1,3 @@
-
 package org.example.boardback.config;
 
 import lombok.RequiredArgsConstructor;
