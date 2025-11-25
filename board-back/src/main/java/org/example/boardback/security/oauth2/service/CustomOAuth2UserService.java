@@ -22,6 +22,7 @@ import org.springframework.transaction.annotation.Transactional;
 
 import java.util.Map;
 
+// DB 사용자 생성 / 업데이트
 @Slf4j // Simple Logging Facade for Java: 로깅 기능을 간편하게 하는 Lombok 어노테이션
 @Service
 @RequiredArgsConstructor
@@ -33,8 +34,8 @@ public class CustomOAuth2UserService extends DefaultOAuth2UserService {
 
     /**
      * OAuth2 로그인 시 provider(google, kakao, naver)로부터 사용자 정보를 가져와
-     * , 프로젝트 서비스의 User 엔티티로 저장/업테이트 한 뒤
-     * >> 최정적으로, Spring Security가 이해할 수 있는 OAuth2User(UserPrincipal) 형태로 리턴
+     *  , 프로젝트 서비스의 User 엔티티로 저장/업데이트 한 뒤
+     *  >> 최종적으로, Spring Security가 이해할 수 있는 OAuth2User(UserPrincipal) 형태로 리턴
      * */
     @Override
     @Transactional
@@ -53,7 +54,7 @@ public class CustomOAuth2UserService extends DefaultOAuth2UserService {
         User user = upsertUser(provider, userInfo);
 
         // 5. 프로젝트 서비스에서 사용하는 UserPrincipal로 래핑
-        return (OAuth2User) userPrincipalMapper.toPrincipal(user.getUsername());
+        return userPrincipalMapper.toPrincipal(user.getUsername());
     }
 
     private AuthProvider mapProvider(String registrationId) {
@@ -84,7 +85,7 @@ public class CustomOAuth2UserService extends DefaultOAuth2UserService {
      * */
     @Transactional
     protected User upsertUser(AuthProvider provider, OAuth2UserInfo userInfo) {
-        // 소셜 서비스에서 제공하는 고유 사용자 ID (구글 sub, 카카오 id 등)
+        // 소셜 서비으세서 제공하는 고유 사용자 ID (구글 sub, 카카오 id 등)
         String providerId = userInfo.getId();
 
         // 소셜에서 가져온 데이터 저장
@@ -98,23 +99,24 @@ public class CustomOAuth2UserService extends DefaultOAuth2UserService {
                 .map(user -> {
                     // 1) 이미 가입된 유저인 경우
                     //      : 이름, 이메일 같은 프로필 정보를 최신값으로 갱신
-                    user.updateOAuthProfile(name, email);
+                    user.updateOauthProfile(name, email);
                     return user;
                 })
                 .orElseGet(() -> {
-                    // 2) 처음 로그인하는 유저인 경우 -> 새 User 인티티 생성
-                    User newUser = User.createOAuthUser(
-                            provider,
-                            providerId,
-                            email,
-                            name
+                    // 2) 처음 로그인하는 유저인 경우 -> 새 User 엔티티 생성
+                    User newUser = User.createOauthUser(
+                        provider,
+                        providerId,
+                        email,
+                        name
                     );
 
                     // 기본 권한 ROLE_USER를 DB에서 조회
                     Role userRole = roleRepository
                             .findById(RoleType.USER)
-                            .orElseThrow(() -> new IllegalArgumentException("ROLE_USER가 DB에 없습니다."));
+                            .orElseThrow(() -> new IllegalArgumentException("ROLE_USER 가 DB에 없습니다."));
 
+                    // 생성된 유저에게 ROLE_USER 권한 부여
                     newUser.grantRole(userRole);
 
                     return userRepository.save(newUser);

@@ -2,8 +2,7 @@ package org.example.boardback.security.oauth2.user;
 
 import java.util.Map;
 
-public class KakaoOAuth2UserInfo extends OAuth2UserInfo{
-
+public class KakaoOAuth2UserInfo extends OAuth2UserInfo {
     public KakaoOAuth2UserInfo(Map<String, Object> attributes) {
         super(attributes);
     }

@@ -95,11 +95,11 @@ public class User extends BaseTimeEntity {
     }
 
     // OAuth2용 생성/업데이트 메서드
-    public static User createOAuthUser(
-        AuthProvider provider,
-        String providerId,
-        String email,
-        String name
+    public static User createOauthUser(
+            AuthProvider provider,
+            String providerId,
+            String email,
+            String name
     ) {
         return User.builder()
                 .username(provider.name() + "_" + providerId)
@@ -112,7 +112,7 @@ public class User extends BaseTimeEntity {
                 .build();
     }
 
-    public void updateOAuthProfile(String name, String email) {
+    public void updateOauthProfile(String name, String email) {
         this.nickname = name;
         this.email = email;
     }

@@ -49,9 +49,9 @@ public class OAuth2AuthenticationSuccessHandler extends SimpleUrlAuthenticationS
 
     @Override
     public void onAuthenticationSuccess (
-            HttpServletRequest request,         // HTTP 요청 객체
-            HttpServletResponse response,       // HTTP 응답 객체
-            Authentication authentication       // 인증 정보 (로그인 한 사용자 정보 조회)
+            HttpServletRequest request,     // HTTP 요청 객체
+            HttpServletResponse response,   // HTTP 응답 객체
+            Authentication authentication   // 인증 정보 (로그인 한 사용자 정보 포함)
     ) throws IOException, ServletException {
         // SecurityContext에 저장된 principal(UserDetails 구현체)을 꺼냄
         UserPrincipal principal = (UserPrincipal) authentication.getPrincipal();
@@ -62,12 +62,12 @@ public class OAuth2AuthenticationSuccessHandler extends SimpleUrlAuthenticationS
         User user = userRepository.findByUsername(username)
                 .orElseThrow(() -> new BusinessException(ErrorCode.USER_NOT_FOUND));
 
-        // principal이 가진 권한(Role 등)을 문자열 Set 으로 추출
+        // principal이 가진 권한(ROLE 들)을 문자열 Set으로 추출
         Set<String> roles = principal.getAuthorities().stream()
-                .map(GrantedAuthority::getAuthority)
-                .collect(Collectors.toSet());
+                .map(GrantedAuthority::getAuthority)            // ROLE_USER 같은 문자열로 변환
+                .collect(Collectors.toSet());                   // 중복이 없는 Set으로 수집
 
-        // JWT 토큰 생성(Access/Refresh)
+        // JWT 토큰 생성 (Access/Refresh)
         String accessToken = jwtProvider.generateAccessToken(username, roles);
         String refreshToken = jwtProvider.generateRefreshToken(username, roles);
 
@@ -77,27 +77,28 @@ public class OAuth2AuthenticationSuccessHandler extends SimpleUrlAuthenticationS
         // 현재 시각 + 남은 밀리초를 더해 만료 시각을 계산
         Instant refreshExpiry = Instant.now().plusMillis(refreshMillis);
 
-        // RefreshToken 엔티티
+        // RefreshToken 엔티티를 DB에 upsert(있으면 갱신, 없으면 새로 저장)
         refreshTokenRepository.findByUser(user)
                 .ifPresentOrElse(
                         rt -> rt.renew(refreshToken, refreshExpiry),
                         () -> refreshTokenRepository.save(
                                 RefreshToken.builder()
-                                        .user(user)
-                                        .token(refreshToken)
-                                        .expiry(refreshExpiry)
+                                        .user(user)             // 어떤 유저의 토큰인지
+                                        .token(refreshToken)    // 실제 리프레시 토큰 문자열
+                                        .expiry(refreshExpiry)  // 만료 시각
                                         .build()
                         ));
+
 
         CookieUtils.addHttpOnlyCookie(
                 response,
                 REFRESH_TOKEN,
                 refreshToken,
                 (int) (refreshMillis / 1000),
-                false // HTTPS에서만 전송하도록 Secure 옵션 설정
+                false   // HTTPS에서만 전송하도록 Secure 옵션 설정
         );
 
-        // 프론트엔트로 보낼 리다이렉트 URL 생성
+        // 프론트엔드로 보낼 리다이렉트 URL 생성
         // +) accessToken은 쿼리 파라미터에 포함하여 전송
         String targetUrl = UriComponentsBuilder.fromUriString(redirectUri)
                 .queryParam("accessToken", accessToken)

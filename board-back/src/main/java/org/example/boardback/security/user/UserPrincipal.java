@@ -1,4 +1,3 @@
-
 package org.example.boardback.security.user;
 
 import com.fasterxml.jackson.annotation.JsonIgnore;
