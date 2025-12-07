@@ -5,7 +5,7 @@ import org.example.boardback.common.enums.payment.PaymentStatus;
 
 import java.time.LocalDateTime;
 
-public record PaymentResponseDto (
+public record PaymentResponseDto(
         Long id,
         String orderId,
         String paymentKey,
@@ -17,6 +17,4 @@ public record PaymentResponseDto (
         Long userPointBalance,
         LocalDateTime requestedAt,
         LocalDateTime approvedAt
-) {
-
-}
+) { }

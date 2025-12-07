@@ -22,6 +22,7 @@ public class Payment extends BaseTimeEntity {
     @Column(name = "id", updatable = false)
     private Long id;
 
+    // 해당 결제를 요청한 사용자
     @ManyToOne(fetch = FetchType.LAZY)
     @JoinColumn(name = "user_id", nullable = false)
     private User user;
@@ -64,8 +65,8 @@ public class Payment extends BaseTimeEntity {
     @Column(length = 255)
     private String failureMessage;
 
-    // 결제 요청 시각
-    @CreationTimestamp
+    // - 결제 요청 시각
+    @CreationTimestamp // 해당 엔티티 생성 시 현재 시각 주입
     @Column(name = "requested_at", nullable = false, updatable = false)
     private LocalDateTime requestedAt;
 
@@ -84,12 +85,14 @@ public class Payment extends BaseTimeEntity {
         this.failureMessage = null;
     }
 
+    // 2) 결제 실패 처리
     public void markFailed(String code, String message) {
         this.status = PaymentStatus.FAILED;
         this.failureCode = code;
         this.failureMessage = message;
     }
 
+    // 3) 환불 완료 처리
     public void markRefunded() {
         this.status = PaymentStatus.REFUNDED;
         this.cancelledAt = LocalDateTime.now();

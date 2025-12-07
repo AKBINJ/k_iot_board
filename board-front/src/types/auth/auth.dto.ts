@@ -22,7 +22,7 @@ export interface SignupRequest {
   password: string;
   confirmPassword: string;
   nickname: string;
-  email: string;
+  email: string; 
   gender: Gender;
   provider: string;
 }

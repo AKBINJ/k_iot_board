@@ -1,4 +1,4 @@
-package org.example.boardback.service.file;
+package org.example.boardback.service.impl;
 
 import jakarta.persistence.EntityNotFoundException;
 import lombok.RequiredArgsConstructor;

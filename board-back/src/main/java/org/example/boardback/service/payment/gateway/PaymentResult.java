@@ -2,14 +2,6 @@ package org.example.boardback.service.payment.gateway;
 
 import lombok.Builder;
 
-/**
- * === PG 응답을 추상화한 결과 객체 ===
- * : 결제 처리 결과를 담는 DTO (PG 응답의 요약본)
- *
- * - 모든 PG에서 공통으로 사용하는 응답 형태
- *      > 서비스 레이어에서는 PG 별로 다른 응답 구조를 몰라도
- *          해당 PaymentResult만 보고 성공/실패 분기 처리가 가능
- * */
 @Builder
 public record PaymentResult(
         boolean success,
@@ -17,4 +9,19 @@ public record PaymentResult(
         String failureCode,
         String failureMessage
 ) {
+
+    public static PaymentResult ok(String paymentKey) {
+        return PaymentResult.builder()
+                .success(true)
+                .paymentKey(paymentKey)
+                .build();
+    }
+
+    public static PaymentResult fail(String failureCode, String failureMessage) {
+        return PaymentResult.builder()
+                .success(false)
+                .failureCode(failureCode)
+                .failureMessage(failureMessage)
+                .build();
+    }
 }

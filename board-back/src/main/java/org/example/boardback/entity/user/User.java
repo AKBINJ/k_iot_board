@@ -57,7 +57,7 @@ public class User extends BaseTimeEntity {
     @OneToMany(mappedBy = "user", cascade = CascadeType.ALL, orphanRemoval = true)
     private Set<UserRole> userRoles = new HashSet<>();
 
-    // OAuth2 필드
+    // === OAuth2 필드 ===
     // 1) 가입 경로 (LOCAL / GOOGLE / KAKAO / NAVER)
     @Enumerated(EnumType.STRING)
     @Column(name = "provider", length = 20, nullable = false)
@@ -71,7 +71,7 @@ public class User extends BaseTimeEntity {
     @Column(name = "email_verified", nullable = false)
     private boolean emailVerified;
 
-    // 결제 필드
+    // === 결제 필드 ===
     private Long pointBalance; // balance: 잔고
 
     @Builder

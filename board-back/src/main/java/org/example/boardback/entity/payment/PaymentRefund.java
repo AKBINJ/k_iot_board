@@ -9,7 +9,6 @@ import java.time.LocalDateTime;
 
 // PaymentRefund: 환불 요청과 처리 결과를 저장하는 엔티티
 // - Payment와 1:N의 관계 (하나의 결제에 여러 개의 부분 환불 가능)
-
 @Entity
 @Table(name = "payment_refunds")
 @Getter
@@ -18,7 +17,8 @@ import java.time.LocalDateTime;
 @Builder
 public class PaymentRefund extends BaseTimeEntity {
 
-    @Id @GeneratedValue(strategy = GenerationType.IDENTITY)
+    @Id
+    @GeneratedValue(strategy = GenerationType.IDENTITY)
     @Column(name = "id", updatable = false)
     private Long id;
 
@@ -35,7 +35,7 @@ public class PaymentRefund extends BaseTimeEntity {
     @Column(length = 255)
     private String reason;
 
-    // 환불 상태
+    // 환불 상태(REQUESTED -> COMPLETED || FAILED
     @Enumerated(EnumType.STRING)
     @Column(nullable = false, length = 30)
     private RefundStatus status;
@@ -47,7 +47,7 @@ public class PaymentRefund extends BaseTimeEntity {
     @Column(length = 255)
     private String failureMessage;
 
-    //  환불 요청/완료 시간
+    // 환불 요청/완료 시간
     private LocalDateTime requestedAt;
     private LocalDateTime completedAt;
 

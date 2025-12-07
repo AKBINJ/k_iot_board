@@ -1,6 +1,6 @@
 /** @jsxImportSource @emotion/react */
-import { css } from "@emotion/react";
-import React from "react";
+import { css } from '@emotion/react'
+import React from 'react'
 
 interface HeaderProps {
   onToggleSidebar: () => void;
@@ -9,16 +9,14 @@ interface HeaderProps {
 function Header({ onToggleSidebar }: HeaderProps) {
   return (
     <header css={headerStyle}>
-      <div className="sidebar-btn" onClick={onToggleSidebar}>
-        🍔
-      </div>
+      <div className="sidebar-btn" onClick={onToggleSidebar}>🍔</div>
       <h1>Board</h1>
       <div className="right">Login</div>
     </header>
-  );
+  )
 }
 
-export default Header;
+export default Header
 
 const headerStyle = css`
   display: flex;
@@ -28,8 +26,7 @@ const headerStyle = css`
   background: white;
   border-bottom: 1px solid #e5e7eb;
 
-  .sidebar-btn,
-  .right {
+  .sidebar-btn, .right {
     cursor: pointer;
   }
 

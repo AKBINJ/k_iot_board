@@ -18,22 +18,20 @@ export default function RegisterPage() {
     email: "",
     nickname: "",
     gender: "N",
-    provider: "LOCAL",
+    provider: "LOCAL"
   });
 
   const [errorMessage, setErrorMessage] = useState<string | null>(null);
 
-  const handleChange = (
-    e: React.ChangeEvent<HTMLInputElement | HTMLSelectElement>
-  ) => {
+  const handleChange = (e: React.ChangeEvent<HTMLInputElement | HTMLSelectElement>) => {
     const { name, value } = e.target;
-    setForm((prev) => ({ ...prev, [name]: value }));
+    setForm(prev => ({ ...prev, [name]: value }));
   };
-
+  
   /** 📌 Mutation */
   const signupMutation = useMutation({
     mutationFn: () => authApi.signupApi(form),
-
+    
     onSuccess: () => {
       alert("회원가입이 완료되었습니다. 로그인해주세요.");
       navigate("/login");
@@ -48,7 +46,8 @@ export default function RegisterPage() {
     e.preventDefault();
 
     setErrorMessage(null);
-
+    
+    console.log(form.gender);
     if (form.password !== form.confirmPassword) {
       setErrorMessage("비밀번호와 비밀번호 확인이 일치하지 않습니다.");
       return;
@@ -65,18 +64,18 @@ export default function RegisterPage() {
         {/* 아이디 */}
         <div css={inputGroup}>
           <label>아이디 *</label>
-          <input
-            name="username"
-            value={form.username}
-            onChange={handleChange}
-            required
+          <input 
+            name="username" 
+            value={form.username} 
+            onChange={handleChange} 
+            required 
           />
         </div>
 
         {/* 비밀번호 */}
         <div css={inputGroup}>
           <label>비밀번호 *</label>
-          <input
+          <input 
             type="password"
             name="password"
             value={form.password}
@@ -88,7 +87,7 @@ export default function RegisterPage() {
         {/* 비밀번호 확인 */}
         <div css={inputGroup}>
           <label>비밀번호 확인 *</label>
-          <input
+          <input 
             type="password"
             name="confirmPassword"
             value={form.confirmPassword}
@@ -100,7 +99,7 @@ export default function RegisterPage() {
         {/* 이메일 */}
         <div css={inputGroup}>
           <label>이메일 *</label>
-          <input
+          <input 
             type="email"
             name="email"
             value={form.email}
@@ -112,7 +111,7 @@ export default function RegisterPage() {
         {/* 닉네임 */}
         <div css={inputGroup}>
           <label>닉네임 *</label>
-          <input
+          <input 
             name="nickname"
             value={form.nickname}
             onChange={handleChange}

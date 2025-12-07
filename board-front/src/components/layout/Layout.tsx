@@ -1,20 +1,20 @@
 /** @jsxImportSource @emotion/react */
-import React, { useState } from "react";
+import React, { useState } from 'react'
 import { css } from "@emotion/react";
-import Header from "./Header";
-import Sidebar from "./Sidebar";
-import Footer from "./Footer";
+import Header from './Header';
+import Sidebar from './Sidebar';
+import Footer from './Footer';
 
 function Layout({ children }: { children: React.ReactNode }) {
   const [sidebarOpen, setSidebarOpen] = useState<boolean>(false);
 
   const handleToggleSidebar = () => {
-    setSidebarOpen((prev) => !prev);
-  };
+    setSidebarOpen(prev => !prev);
+  }
 
   const handleCloseSidebar = () => {
     setSidebarOpen(false);
-  };
+  }
 
   return (
     <div css={layoutStyle}>
@@ -27,10 +27,10 @@ function Layout({ children }: { children: React.ReactNode }) {
 
       <Footer />
     </div>
-  );
+  )
 }
 
-export default Layout;
+export default Layout
 
 const layoutStyle = css`
   display: flex;

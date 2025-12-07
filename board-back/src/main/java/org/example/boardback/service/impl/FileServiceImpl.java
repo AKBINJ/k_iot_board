@@ -1,4 +1,4 @@
-package org.example.boardback.service.file;
+package org.example.boardback.service.impl;
 
 import lombok.RequiredArgsConstructor;
 import org.example.boardback.common.enums.ErrorCode;

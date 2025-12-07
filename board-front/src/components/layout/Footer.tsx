@@ -1,12 +1,14 @@
 /** @jsxImportSource @emotion/react */
-import { css } from "@emotion/react";
-import React from "react";
+import { css } from '@emotion/react'
+import React from 'react'
 
 function Footer() {
-  return <footer css={footerStyle}>&copy; 2025 Board Project</footer>;
+  return (
+    <footer css={footerStyle}>&copy; 2025 Board Project</footer>
+  )
 }
 
-export default Footer;
+export default Footer
 
 const footerStyle = css`
   display: flex;

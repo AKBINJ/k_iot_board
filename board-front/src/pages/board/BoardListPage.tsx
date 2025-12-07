@@ -1,7 +1,9 @@
-import React from "react";
+import React from 'react'
 
 function BoardListPage() {
-  return <div>BoardListPage</div>;
+  return (
+    <div>BoardListPage</div>
+  )
 }
 
-export default BoardListPage;
+export default BoardListPage

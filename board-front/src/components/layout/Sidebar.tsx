@@ -1,6 +1,6 @@
 /** @jsxImportSource @emotion/react */
-import { css } from "@emotion/react";
-import React from "react";
+import { css } from '@emotion/react'
+import React from 'react'
 
 interface SidebarProps {
   isOpen: boolean;
@@ -12,21 +12,19 @@ function Sidebar({ isOpen, onClose }: SidebarProps) {
     <aside css={sidebarStyle(isOpen)}>
       <div className="sidebar-header">
         <span>메뉴</span>
-        <button className="close" onClick={onClose}>
-          ❌
-        </button>
+        <button className="close" onClick={onClose}>❌</button>
       </div>
-      <nav className="items">
+      <nav className='items'>
         <a>Dashboard</a>
         <a>게시판</a>
         <a>사용자 관리</a>
         <a>설정</a>
       </nav>
     </aside>
-  );
+  )
 }
 
-export default Sidebar;
+export default Sidebar
 
 const sidebarStyle = (isOpen: boolean) => css`
   display: flex;

@@ -3,9 +3,8 @@ import { useAuthStore } from "./stores/auth.store";
 import { userApi } from "./apis/user/user.api";
 import { GlobalStyle } from "./styles/global";
 import Layout from "./components/layout/Layout";
-import MainRouter from "./pages/MainRouter";
 import AuthRouter from "./pages/auth/AuthRouter";
-
+import MainRouter from "./pages/MainRouter";
 
 export default function App() {
   const { isInitialized, accessToken, user, setUser } = useAuthStore();
